@@ -4,10 +4,53 @@
   "description": "CRUD RESTful API built with TypeScript + Node.js + Postgresql + Docker",
   "main": "dist/app.js",
   "scripts": {
-    "build": "npx tsc -p .",
-    "start": "nodemon src/app.ts",
-    "clean": "npx rimraf -rf ./dist",
+    "prestart": "npm run build:docker-img",
+    "start": "npm run docker:up",
+    "watch": "nodemon -L src/app.ts --watch src/**",
+    "build": "npm run docker:compile && npm run docker:copy-files",
+    "clean": "npm run docker:clean && npx rimraf -rf ./dist",
+    "build:docker-img": "npm run clean && docker build . -t ts-rest-api-playground_rest-server-image",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker:restart": "npm run docker:down && npm run docker:up",
+    "docker:compile": "npx tsc -p .",
+    "docker:copy-files": "copyfiles -a -u 1 ./src/public/**/*.** dist/",
+    "docker:clean": "npm run docker:down && docker rm ts-rest-api-playground_rest-server -f && docker image rm ts-rest-api-playground_rest-server-image:latest -f && docker volume rm api-database-vol -f",
+    "docker:logs": "docker logs ts-rest-api-playground_rest-server && docker logs ts-rest-api-playground_api-database",
+    "terminal:database": "docker exec -it ts-rest-api-playground_api-database bash",
+    "terminal:server": "docker exec -it ts-rest-api-playground_rest-server bash",
     "test": "echo \"Error: no tests specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "tslib": "^2.3.1",
+    "@faker-js/faker": "^6.1.2",
+    "pg": "^8.7.3",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.23",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "copyfiles": "^2.4.1",
+    "lint-staged": "^12.3.7",
+    "mrm": "^2.6.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "dist/*",
+      "test/*",
+      "docs/*",
+      ".notes/*",
+      "node_modules/*"
+    ],
+    "delay": 1000
   },
   "repository": {
     "type": "git",
@@ -26,29 +69,5 @@
     "api",
     "restful"
   ],
-  "author": "Alexandre Gimenez (algife.com)",
-  "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.3",
-    "tslib": "^2.3.1"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.23",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.6.3",
-    "nodemon": "^2.0.15",
-    "ts-node": "^10.7.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "dist/*",
-      "test/*",
-      "docs/*",
-      ".notes/*",
-      "node_modules/*"
-    ],
-    "delay": 1000
-  }
+  "author": "Alexandre Gimenez (algife.com)"
 }

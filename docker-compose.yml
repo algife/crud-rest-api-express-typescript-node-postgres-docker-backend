@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  api-database:
+    container_name: ts-rest-api-playground_api-database
+    image: postgres:14.2
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes: # persistent data storage between docker-host
+      - api-database-vol:/var/lib/postgresql/data
+      - ./database-scripts/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=postgres
+      # - POSTGRES_HOST_AUTH_METHOD=trust # ! MUST BE REMOVE FOR PROD
+
+  api-server: # express server app
+    container_name: ts-rest-api-playground_rest-server
+    image: ts-rest-api-playground_rest-server-image
+    command: node dist/app.js --require dotenv/config # prod
+    # env_file:
+    #   - api-env-vars.env # ENV VARS for API Server App only
+    environment:
+      - DB_TYPE=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_HOST=ts-rest-api-playground_api-database
+      - DB_PORT=5432
+      - DB_NAME=api_db
+
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src/
+      - ./node_modules:/app/node_modules/
+
+volumes:
+  api-database-vol:
+    name: "api-database-vol"
+    driver: local
