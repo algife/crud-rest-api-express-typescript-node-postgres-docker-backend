@@ -7,6 +7,13 @@
 This is a **REST API** built in **TypeScript / Express.js / Node.js** to perform generic **CRUD operations**.
 It has been developed from scratch to serve as a boilerplate for future projects.
 
+## Prerequisies
+
+You will need to install in your machine:
+
+- Docker (with Hyper-V enabled)
+- Node 16
+
 ## Technologies
 
 - TypeScript, Express.js, Node.js
