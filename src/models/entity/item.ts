@@ -29,4 +29,16 @@ export class Item extends BaseEntity {
     onUpdate: nowUtcSql,
   })
   public updated_at?: Date;
+
+  static generate(): Item {
+    const item = new Item();
+    item.p1 = faker.random.words(6);
+    item.p2 = faker.datatype.number({
+      min: 1.0,
+      max: 12345678.9,
+      precision: 0.1,
+    });
+
+    return item;
+  }
 }
