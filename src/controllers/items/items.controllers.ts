@@ -78,15 +78,6 @@ export const overrideOrCreateItemHandler = async (
     const payload: Item = req.body;
     const id: string = req.params.id;
 
-    // invalid request
-    if (
-      !payload ||
-      Object.keys(payload).length === 0 ||
-      // enforce payload.id to be equal to id (if exists)
-      (payload.id && payload.id !== id)
-    )
-      return res.sendStatus(HttpStatusCode.BAD_REQUEST);
-
     const now: Date = new Date();
 
     const found = await databaseService.itemsRepo.findOneBy({ id });
@@ -152,9 +143,11 @@ export const deleteAllItemsHandler = async (req: Request, res: Response) => {
   const ids = ((await databaseService.itemsRepo.find()) || []).map(
     (item: Item) => item.id
   );
+  if (ids.length === 0) return res.sendStatus(HttpStatusCode.NO_CONTENT);
+
   const deleted = await databaseService.itemsRepo.delete({});
 
-  if (ids.length === 0 || !deleted || deleted.affected == null)
+  if (!deleted || deleted.affected == null)
     return res.sendStatus(HttpStatusCode.INTERNAL_SERVER_ERROR);
 
   if (deleted.affected > 0) return res.json(ids);

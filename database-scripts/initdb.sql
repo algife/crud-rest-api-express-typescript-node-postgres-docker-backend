@@ -1,3 +1,4 @@
+-- improve table recreation for production
 DROP DATABASE IF EXISTS api_db;
 
 CREATE DATABASE api_db WITH ENCODING 'UTF8';
