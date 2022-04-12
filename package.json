@@ -1,12 +1,11 @@
 {
-  "name": "ts-rest-api-playground",
+  "name": "ts-rest-api-playground_server",
   "version": "0.0.1",
   "description": "CRUD RESTful API built with TypeScript + Node.js + Postgresql + Docker",
   "main": "dist/app.js",
   "scripts": {
     "prestart": "npm run build:docker-img",
     "start": "npm run docker:up",
-    "watch": "nodemon -L src/app.ts --watch src/**",
     "build": "npm run docker:compile && npm run docker:copy-files",
     "clean": "npm run docker:clean && npx rimraf -rf ./dist",
     "build:docker-img": "npm run clean && docker build . -t ts-rest-api-playground_rest-server-image",
@@ -15,10 +14,10 @@
     "docker:restart": "npm run docker:down && npm run docker:up",
     "docker:compile": "npx tsc -p .",
     "docker:copy-files": "copyfiles -a -u 1 ./src/public/**/*.** dist/",
-    "docker:clean": "npm run docker:down && docker rm ts-rest-api-playground_rest-server -f && docker image rm ts-rest-api-playground_rest-server-image:latest -f && docker volume rm api-database-vol -f",
-    "docker:logs": "docker logs ts-rest-api-playground_rest-server && docker logs ts-rest-api-playground_api-database",
-    "terminal:database": "docker exec -it ts-rest-api-playground_api-database bash",
-    "terminal:server": "docker exec -it ts-rest-api-playground_rest-server bash",
+    "docker:clean": "npm run docker:down && docker rm ts-rest-api-playground_server -f && docker image rm ts-rest-api-playground_server-image:latest -f && docker volume rm api-database-vol -f",
+    "docker:logs": "docker logs ts-rest-api-playground_server && docker logs ts-rest-api-playground_database",
+    "terminal:database": "docker exec -it ts-rest-api-playground_database bash",
+    "terminal:server": "docker exec -it ts-rest-api-playground_server bash",
     "test": "echo \"Error: no tests specified\" && exit 1"
   },
   "license": "MIT",

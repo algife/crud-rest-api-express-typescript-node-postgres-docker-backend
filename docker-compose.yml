@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   api-database:
-    container_name: ts-rest-api-playground_api-database
+    container_name: ts-rest-api-playground_database
     image: postgres:14.2
     restart: always
     ports:
@@ -15,18 +15,23 @@ services:
       # - POSTGRES_HOST_AUTH_METHOD=trust # ! MUST BE REMOVE FOR PROD
 
   api-server: # express server app
-    container_name: ts-rest-api-playground_rest-server
-    image: ts-rest-api-playground_rest-server-image
-    command: node dist/app.js --require dotenv/config # prod
+    container_name: ts-rest-api-playground_server
+    image: ts-rest-api-playground_server-image
+    restart: always
+
+    # production command
+    command: node dist/app.js #--require dotenv/config
+
     # env_file:
-    #   - api-env-vars.env # ENV VARS for API Server App only
+    #   - .env # ENV VARS for API Server App only
     environment:
+      - API_SERVER_PORT=443
       - DB_TYPE=postgres
       - DB_USER=postgres
       - DB_PASSWORD=123456
-      - DB_HOST=ts-rest-api-playground_api-database
+      - DB_HOST=ts-rest-api-playground_database
       - DB_PORT=5432
-      - DB_NAME=api_db
+      - DB_NAME=ts_rest_api_db
 
     ports:
       - "3000:3000"

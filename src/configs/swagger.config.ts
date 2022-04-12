@@ -1,6 +1,6 @@
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
-import { PORT } from "../configs/app.config";
+import { APP_HOST, APP_PORT } from "../configs/app.config";
 
 export const swaggerDoc: swaggerUI.JsonObject = swaggerJsDoc({
   swaggerDefinition: {
@@ -20,7 +20,7 @@ export const swaggerDoc: swaggerUI.JsonObject = swaggerJsDoc({
       },
       servers: [
         {
-          url: "http://localhost:" + PORT,
+          url: `http://${APP_HOST}:${APP_PORT}`,
           description: "Development server",
         },
       ],

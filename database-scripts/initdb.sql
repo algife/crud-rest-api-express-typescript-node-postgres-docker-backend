@@ -1,7 +1,7 @@
 -- improve table recreation for production
-DROP DATABASE IF EXISTS api_db;
+DROP DATABASE IF EXISTS ts_rest_api_db;
 
-CREATE DATABASE api_db WITH ENCODING 'UTF8';
+CREATE DATABASE ts_rest_api_db WITH ENCODING 'UTF8';
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 

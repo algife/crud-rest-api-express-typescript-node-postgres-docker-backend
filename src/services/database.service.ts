@@ -5,7 +5,7 @@ import { Item } from "../models/entity/item";
 const ORMCONFIG: DataSourceOptions = {
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || "", 10),
+  port: parseInt(process.env.DB_PORT || "5432", 10),
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -15,13 +15,13 @@ const ORMCONFIG: DataSourceOptions = {
   subscribers: [],
   migrations: [],
   uuidExtension: "uuid-ossp",
-  applicationName: "ts-rest-api-playground_api-database",
+  applicationName: "ts-rest-api-playground_database",
 } as PostgresConnectionOptions;
 
 class DatabaseService {
   private readonly dataSource = new DataSource(ORMCONFIG);
 
-  // Data Repositories
+  // ! Data Repositories
   public readonly itemsRepo = this.dataSource.getRepository(Item);
 
   constructor() {

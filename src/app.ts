@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import path from "path";
-import { API_VERSION_PREFIX, PORT } from "./configs/app.config";
+import { API_VERSION_PREFIX, APP_HOST, APP_PORT } from "./configs/app.config";
 import routeValidationMiddleware from "./middleware/route-validation.middleware";
 import docsRouter from "./routes/docs.router";
 import itemsRouter from "./routes/items.router";
@@ -31,6 +31,8 @@ app
   .use(API_VERSION_PREFIX, rootRouter);
 
 // Run the server
-app.listen(PORT, () => console.log(`API SERVER RUNNING AT PORT ${PORT}`));
+app.listen(APP_PORT, () =>
+  console.log(`API SERVER RUNNING AT PORT http://${APP_HOST}:${APP_PORT}/`)
+);
 
 export default app;
