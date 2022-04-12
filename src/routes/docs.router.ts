@@ -5,11 +5,12 @@ import { PORT } from "../configs/app.config";
 
 const swaggerDoc: swaggerUI.JsonObject = swaggerJsDoc({
   swaggerDefinition: {
-    // openapi: "3.0.0",
+    openapi: "3.0.0",
     info: {
       title: "CRUD REST API",
       version: "0.0.1",
-      description: "Lorem Ipsus sit amet...",
+      description:
+        "CRUD REST API that performs the common tasks that the average enterprise-grade or start-up might need",
       license: {
         name: "Licensed Under MIT",
         url: "https://spdx.org/licenses/MIT.html",

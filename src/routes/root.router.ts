@@ -7,6 +7,7 @@ const rootRouter = Router();
  * @swagger
  * /v1:
  *   get:
+ *     summary: Root endpoint
  *     description: Root endpoint that replies a JSON message saying the API is up and running.
  *     responses:
  *       200:

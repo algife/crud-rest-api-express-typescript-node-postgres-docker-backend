@@ -87,12 +87,20 @@ export const overrideOrCreateItemHandler = async (
     )
       return res.sendStatus(HttpStatusCode.BAD_REQUEST);
 
-    const item = databaseService.itemsRepo.create({
-      ...payload,
-      id,
-    });
+    const now: Date = new Date();
 
+    const found = await databaseService.itemsRepo.findOneBy({ id });
+
+    // Override the whole object if exists or create It
+    const item = {
+      ...payload,
+      // make sure some properties are preserved
+      id,
+      updated_at: found?.updated_at || now,
+      created_at: found?.created_at || now,
+    };
     const result = await databaseService.itemsRepo.save(item);
+
     if (result) return res.json(result);
   } catch (err) {
     console.error(err);
