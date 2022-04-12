@@ -1,9 +1,11 @@
 import express, { Application } from "express";
 import path from "path";
 import { API_VERSION_PREFIX, PORT } from "./configs/app.config";
+import routeValidationMiddleware from "./middleware/route-validation.middleware";
 import docsRouter from "./routes/docs.router";
 import itemsRouter from "./routes/items.router";
 import rootRouter from "./routes/root.router";
+
 const cors = require("cors");
 
 const app: Application = express();
@@ -13,8 +15,11 @@ const app: Application = express();
 app
   .use(express.json()) // parse json request body
   .use(express.urlencoded({ extended: true })) // parse urlencoded request body
+  // enable cors
   .use(cors())
-  .options("*", cors()); // enable cors
+  .options("*", cors())
+  // Set-up Route validation (Requests, ...)
+  .use(routeValidationMiddleware);
 
 // ! API ROUTES
 // ! -----------

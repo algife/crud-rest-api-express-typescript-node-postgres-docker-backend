@@ -8,6 +8,7 @@ import {
   overrideOrCreateItemHandler,
   updateItemHandler,
 } from "../controllers/items/items.controllers";
+import { RouteValidator } from "./validators/route.validator";
 
 const itemsRouter = Router();
 
@@ -98,14 +99,13 @@ const itemsRouter = Router();
  *       200:
  *         description: Success.
  */
-
 itemsRouter
   .get("/", getAllItemsHandler)
-  .post("/", createItemHandler)
+  .post("/", RouteValidator.createItem, createItemHandler)
   .delete("/", deleteAllItemsHandler)
-  .get("/:id", getOneItemHandler)
-  .put("/:id", overrideOrCreateItemHandler)
-  .patch("/:id", updateItemHandler)
-  .delete("/:id", deleteItemByIdHandler);
+  .get("/:id", RouteValidator.getOneItem, getOneItemHandler)
+  .put("/:id", RouteValidator.overrideOrCreateItem, overrideOrCreateItemHandler)
+  .patch("/:id", RouteValidator.updateItem, updateItemHandler)
+  .delete("/:id", RouteValidator.deleteItemById, deleteItemByIdHandler);
 
 export default itemsRouter;
