@@ -1,6 +1,15 @@
 import express, { Application } from "express";
+import * as http from "http";
+import * as https from "https";
 import path from "path";
-import { API_VERSION_PREFIX, APP_HOST, APP_PORT } from "./configs/app.config";
+import {
+  API_VERSION_PREFIX,
+  APP_HOST,
+  APP_PORT,
+  APP_PORT_SSL,
+} from "./configs/app.config";
+import { SSL_CREDENTIALS } from "./configs/ssl-cert.config";
+import { enforceHTTPS } from "./middleware/enforce-https.middleware";
 import routeValidationMiddleware from "./middleware/route-validation.middleware";
 import docsRouter from "./routes/docs.router";
 import itemsRouter from "./routes/items.router";
@@ -13,6 +22,7 @@ const app: Application = express();
 // ! MIDDLEWARES
 // ! -----------
 app
+  .use(enforceHTTPS)
   .use(express.json()) // parse json request body
   .use(express.urlencoded({ extended: true })) // parse urlencoded request body
   // enable cors
@@ -31,8 +41,15 @@ app
   .use(API_VERSION_PREFIX, rootRouter);
 
 // Run the server
-app.listen(APP_PORT, () =>
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(SSL_CREDENTIALS, app);
+
+httpServer.listen(APP_PORT, () =>
   console.log(`API SERVER RUNNING AT PORT http://${APP_HOST}:${APP_PORT}/`)
+);
+
+httpsServer.listen(APP_PORT_SSL, () =>
+  console.log(`API SERVER RUNNING AT PORT https://${APP_HOST}:${APP_PORT_SSL}/`)
 );
 
 export default app;
