@@ -5,7 +5,7 @@ export const APP_PORT_SSL: number = parseInt(
   10
 );
 export const APP_PORT: number = parseInt(
-  process.env.API_SERVER_PORT || "8080",
+  process.env.API_SERVER_PORT || "80",
   10
 );
 export const ENFORCE_HTTPS: boolean = true;
