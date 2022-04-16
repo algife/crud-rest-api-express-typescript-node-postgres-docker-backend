@@ -1,21 +1,14 @@
 import cors from "cors";
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application } from "express";
 import * as http from "http";
 import * as https from "https";
 import path from "path";
-import {
-  API_VERSION_PREFIX,
-  APP_HOST,
-  APP_PORT,
-  APP_PORT_SSL,
-} from "./configs/app.config";
-import { SSL_CREDENTIALS } from "./configs/ssl-cert.config";
+import APP_CONFIG from "./config/app.config";
+import { SSL_CREDENTIALS } from "./config/sslcert";
 import { enforceHTTPS } from "./middleware/enforce-https.middleware";
 import routeValidationMiddleware from "./middleware/route-validation.middleware";
+import apiV1Router from "./routes/api-v1.router";
 import docsRouter from "./routes/docs.router";
-import itemsRouter from "./routes/items.router";
-import rootRouter from "./routes/root.router";
-
 const app: Application = express();
 
 // ! MIDDLEWARES
@@ -33,20 +26,23 @@ app
   // Static public folder at the Root level
   .use("/", express.static(path.join(__dirname, "public")))
   .use("/docs", docsRouter)
-  .use(`${API_VERSION_PREFIX}/items`, itemsRouter)
-  .use(API_VERSION_PREFIX, rootRouter);
+  .use(APP_CONFIG.API_VERSION_PREFIX, apiV1Router);
 
 // Run the server
 // ! HTTP
 const httpServer = http.createServer(app);
-httpServer.listen(APP_PORT, () =>
-  console.log(`API SERVER RUNNING AT PORT http://${APP_HOST}:${APP_PORT}/`)
+httpServer.listen(APP_CONFIG.PORT.HTTP, () =>
+  console.log(
+    `API SERVER RUNNING AT PORT http://${APP_CONFIG.APP_HOST}:${APP_CONFIG.PORT.HTTP}/`
+  )
 );
 
 // ! HTTPS
 const httpsServer = https.createServer(SSL_CREDENTIALS, app);
-httpsServer.listen(APP_PORT_SSL, () =>
-  console.log(`API SERVER RUNNING AT PORT https://${APP_HOST}:${APP_PORT_SSL}/`)
+httpsServer.listen(APP_CONFIG.PORT.HTTPS, () =>
+  console.log(
+    `API SERVER RUNNING AT PORT https://${APP_CONFIG.APP_HOST}:${APP_CONFIG.PORT.HTTPS}/`
+  )
 );
 
 export default app;

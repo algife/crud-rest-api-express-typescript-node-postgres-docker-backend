@@ -12,15 +12,15 @@ services:
     environment:
       - POSTGRES_PASSWORD=123456
       - POSTGRES_USER=postgres
-      # - POSTGRES_HOST_AUTH_METHOD=trust # ! MUST BE REMOVE FOR PROD
+      # - POSTGRES_HOST_AUTH_METHOD=trust # ! OPTIONAL FOR LOCAL DEV. MUST BE REMOVE FOR PROD
 
   api-server: # express server app
     container_name: ts-rest-api-playground_server
     image: ts-rest-api-playground_server-image
     restart: always
     ports:
-      - "443:443"
-      - "80:80"
+      - "443:443" # https (SSL secured)
+      - "80:80" # http (non-secured)
 
     # production command
     command: node dist/app.js #--require dotenv/config
