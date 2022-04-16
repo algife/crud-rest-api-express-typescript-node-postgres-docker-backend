@@ -19,6 +19,7 @@ const ORMCONFIG: DataSourceOptions = {
 } as PostgresConnectionOptions;
 
 class DatabaseService {
+  private initialized: boolean = false;
   private readonly dataSource = new DataSource(ORMCONFIG);
 
   // ! Data Repositories
@@ -28,14 +29,22 @@ class DatabaseService {
     this._initialize();
   }
 
-  private _initialize() {
+  private async _initialize() {
     // Initialize the connection with the database, register all entities
     // and "synchronize" database schema. Should be called ONCE in the app flow
     console.log("Initializing DB...");
-    this.dataSource
-      .initialize()
-      .then(() => console.log("DB connection is ready"))
-      .catch((error) => console.log(error));
+    if (!this.initialized) {
+      this.initialized = await this.dataSource
+        .initialize()
+        .then((ds) => {
+          console.log("DB connection is ready");
+          return true;
+        })
+        .catch((error) => {
+          console.log(error);
+          return false;
+        });
+    }
   }
 }
 

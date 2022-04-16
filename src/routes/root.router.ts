@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { API_VERSION_PREFIX } from "../configs/app.config";
+import APP_CONFIG from "../config/app.config";
 
 const rootRouter = Router();
 
@@ -15,7 +15,7 @@ const rootRouter = Router();
  */
 rootRouter.get("/", (req: Request, res: Response) =>
   res.json({
-    message: `API Server up and running at ${API_VERSION_PREFIX}`,
+    message: `API Server up and running at ${APP_CONFIG.API_VERSION_PREFIX}`,
   })
 );
 

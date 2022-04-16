@@ -1,6 +1,6 @@
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
-import { APP_HOST, APP_PORT_SSL } from "../configs/app.config";
+import APP_CONFIG from "./app.config";
 
 export const swaggerDoc: swaggerUI.JsonObject = swaggerJsDoc({
   swaggerDefinition: {
@@ -20,7 +20,7 @@ export const swaggerDoc: swaggerUI.JsonObject = swaggerJsDoc({
       },
       servers: [
         {
-          url: `https://${APP_HOST}:${APP_PORT_SSL}`,
+          url: `https://${APP_CONFIG.APP_HOST}:${APP_CONFIG.PORT.HTTPS}`,
           description: "Development server",
         },
       ],
