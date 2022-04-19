@@ -21,6 +21,7 @@ You will need to install in your machine:
 - Node 16
 - Docker (with Hyper-V enabled)
 - Docker-compose
+- Vercel (globally) and User Account with them + set-up the commands and dist folder
 - Install mkcert globally
 
 ## Development Server
@@ -33,7 +34,7 @@ After installing the prerequisites and making sure the Docker service is running
 ## Next Steps
 
 - [ ] Auth and Route Guards (Using PassportJS that allows Json Web Tockens (jwt), Social Providers like Google/Facebook/..., and 100+ strategies)
-- [ ] Deploy with Vercel / Continuous Integration (CI) with Github Actions
+- [x] Deploy with Vercel / Continuous Integration (CI) with Github Actions
 - [ ] Code improvements following Best Practices
 - [ ] Security enhancements
 - [ ] Tests (Unit Tests and End-to-end a.k.a. e2e)

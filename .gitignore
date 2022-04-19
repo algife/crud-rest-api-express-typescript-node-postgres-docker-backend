@@ -105,6 +105,9 @@ typings/
 .nuxt
 dist
 
+# Vercel API Dist folder
+api/**
+
 # Gatsby files
 
 .cache/
@@ -138,3 +141,4 @@ dist
 # Miscelaneous
 
 .notes
+.vercel

@@ -1,5 +1,0 @@
-Keys updated intentionally for demo purposes.
-
-
-Generate your own keys with OPENSSL.
-For productions use LETSENCRYPT instead when published
