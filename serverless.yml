@@ -1,0 +1,52 @@
+service: "ts-rest-api-playground"
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: "nodejs14.x"
+  region: us-east-1
+  profile: default
+  # stackName: custom-stack-name
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  # useDotenv: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    NODE_OPTIONS: --enable-source-maps --stack-trace-limit=1000
+  logRetentionInDays: 14
+  # # Version of hashing algorithm used by Serverless Framework for function packaging
+  # lambdaHashingVersion: 20201221
+  # Use function versioning (enabled by default)
+  # versionFunctions: false
+  # Enable detailed CloudWatch metrics (default: false)
+  # metrics: true
+  # Enable CORS HTTP headers with default settings (allow all). Can be fine-tuned with specific options
+  # cors: true
+# disabledDeprecations:
+#   - DEP_CODE_1 # Deprecation code to disable
+#   - "*" # Disable all deprecation messages
+# configValidationMode: error
+# deprecationNotificationMode: warn:summary
+
+package:
+  exclude:
+    - /**
+  include:
+    - src/functions/**
+    - src/libs/**
+
+functions:
+  ping:
+    handler: src/functions/testfn.testfn #src/functions/ping/handler.handler
+    events:
+      - http:
+          path: /ping
+          method: get
+  #       # request:
+  #       #   schemas:
+  #       #     - "application/json": schema

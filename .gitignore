@@ -52,6 +52,11 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Serverless directories
+.serverless
+# esbuild directories
+.esbuild
+
 # TypeScript v1 declaration files
 
 typings/
@@ -118,10 +123,6 @@ dist
 # vuepress build output
 
 .vuepress/dist
-
-# Serverless directories
-
-.serverless/
 
 # FuseBox cache
 
